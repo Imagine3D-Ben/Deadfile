@@ -11,6 +11,7 @@ using System.Windows;
 using Deadfile.Data;
 using Deadfile.Helpers;
 using Deadfile.Services;
+using Deadfile.ViewModel;
 
 namespace Deadfile
 {
@@ -21,6 +22,8 @@ namespace Deadfile
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+
             try
             {
                 AppDomain currentDomain = AppDomain.CurrentDomain;

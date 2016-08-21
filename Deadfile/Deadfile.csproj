@@ -148,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Whatever\WhateverView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -159,6 +163,7 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="Persons\PersonsViewModel.cs" />
     <Compile Include="Home\HomeViewModel.cs" />
+    <Compile Include="Whatever\WhateverViewModel.cs" />
     <Compile Include="Persons\PersonDetailsViewModel.cs" />
     <Compile Include="Persons\PersonDirectoryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -168,6 +173,10 @@
     </Compile>
     <Compile Include="Home\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Whatever\WhateverView.xaml.cs">
+      <DependentUpon>WhateverView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Persons\PersonsView.xaml.cs">

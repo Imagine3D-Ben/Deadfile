@@ -10,6 +10,7 @@ using Deadfile.Data;
 using Deadfile.Helpers;
 using Deadfile.Services;
 using Deadfile.Home;
+using Deadfile.Whatever;
 using Deadfile.Persons;
 
 namespace Deadfile.ViewModel
@@ -17,10 +18,8 @@ namespace Deadfile.ViewModel
     public class MainWindowViewModel : ViewModelBase
     {
         public List<PageViewModel> PageViewModels { get; private set; }
-        public PageViewModel CurrentPageViewModel { get; private set; }
 
         public ICommand ChangePageCommand { get; private set; }
-
 
         public ICommand AppStartCommand { get; private set; }
 
@@ -28,8 +27,9 @@ namespace Deadfile.ViewModel
             : base(personService, dispatcher, aggregator, dialogService)
         {
             PageViewModels = new List<ViewModel.PageViewModel>();
-            PageViewModels.Add(new HomeViewModel(personService, dispatcher, aggregator, dialogService));
             PageViewModels.Add(new PersonsViewModel(personService, dispatcher, aggregator, dialogService));
+            PageViewModels.Add(new HomeViewModel(personService, dispatcher, aggregator, dialogService));
+            PageViewModels.Add(new WhateverViewModel(personService, dispatcher, aggregator, dialogService));
             CurrentPageViewModel = PageViewModels[0];
             ChangePageCommand = new RelayCommand(p => ChangeViewModel((PageViewModel)p), p => p is PageViewModel);
 
@@ -43,6 +43,23 @@ namespace Deadfile.ViewModel
 
             CurrentPageViewModel = PageViewModels
                 .FirstOrDefault(vm => vm == viewModel);
+        }
+
+        private PageViewModel _currentPageViewModel;
+        public PageViewModel CurrentPageViewModel
+        {
+            get
+            {
+                return _currentPageViewModel;
+            }
+            set
+            {
+                if (_currentPageViewModel != value)
+                {
+                    _currentPageViewModel = value;
+                    OnPropertyChanged("CurrentPageViewModel");
+                }
+            }
         }
     }
 }

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:home="clr-namespace:Deadfile.Home"
+        xmlns:whatever="clr-namespace:Deadfile.Whatever"
         xmlns:persons="clr-namespace:Deadfile.Persons"
         Title="MainWindow" 
         Width="1024" Height="768"
@@ -15,6 +16,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type home:HomeViewModel}">
             <home:HomeView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type whatever:WhateverViewModel}">
+            <whatever:WhateverView />
         </DataTemplate>
     </Window.Resources>
 
