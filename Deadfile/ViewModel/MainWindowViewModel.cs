@@ -9,23 +9,40 @@ using Deadfile.Commands;
 using Deadfile.Data;
 using Deadfile.Helpers;
 using Deadfile.Services;
+using Deadfile.Home;
+using Deadfile.Persons;
 
 namespace Deadfile.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public PersonDirectoryViewModel PersonDirectoryViewModel { get; private set; }
-        public PersonDetailsViewModel PersonDetailsViewModel { get; private set; }
+        public List<PageViewModel> PageViewModels { get; private set; }
+        public PageViewModel CurrentPageViewModel { get; private set; }
+
+        public ICommand ChangePageCommand { get; private set; }
+
 
         public ICommand AppStartCommand { get; private set; }
 
         public MainWindowViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService)
             : base(personService, dispatcher, aggregator, dialogService)
         {
-            PersonDirectoryViewModel = new PersonDirectoryViewModel(personService, dispatcher, aggregator, dialogService);
-            PersonDetailsViewModel = new PersonDetailsViewModel(personService, dispatcher, aggregator, dialogService);
+            PageViewModels = new List<ViewModel.PageViewModel>();
+            PageViewModels.Add(new HomeViewModel(personService, dispatcher, aggregator, dialogService));
+            PageViewModels.Add(new PersonsViewModel(personService, dispatcher, aggregator, dialogService));
+            CurrentPageViewModel = PageViewModels[0];
+            ChangePageCommand = new RelayCommand(p => ChangeViewModel((PageViewModel)p), p => p is PageViewModel);
 
-            AppStartCommand = new AsyncCommand(PersonDirectoryViewModel.RefreshAsync);
+            AppStartCommand = new AsyncCommand(() => Task.WhenAll(PageViewModels.Select((vm) => vm.StartTask()).ToArray()));
+        }
+
+        private void ChangeViewModel(PageViewModel viewModel)
+        {
+            if (!PageViewModels.Contains(viewModel))
+                PageViewModels.Add(viewModel);
+
+            CurrentPageViewModel = PageViewModels
+                .FirstOrDefault(vm => vm == viewModel);
         }
     }
 }

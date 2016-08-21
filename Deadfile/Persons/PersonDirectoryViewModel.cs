@@ -12,8 +12,9 @@ using Deadfile.Events;
 using Deadfile.Helpers;
 using Deadfile.Model;
 using Deadfile.Services;
+using Deadfile.ViewModel;
 
-namespace Deadfile.ViewModel
+namespace Deadfile.Persons
 {
     public class PersonDirectoryViewModel : ViewModelBase
     {

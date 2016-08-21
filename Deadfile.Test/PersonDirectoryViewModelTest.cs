@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Deadfile.Events;
 using Moq;
 using Deadfile.Model;
+using Deadfile.Persons;
 using Microsoft.Practices.Prism.PubSubEvents;
 
 namespace Deadfile.Test

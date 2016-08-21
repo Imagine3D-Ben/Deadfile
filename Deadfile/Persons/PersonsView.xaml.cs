@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Deadfile.ViewModel;
 
-namespace Deadfile.View
+namespace Deadfile.Persons
 {
     /// <summary>
-    /// Interaction logic for PersonDialog.xaml
+    /// Interaction logic for PersonsView.xaml
     /// </summary>
-    public partial class PersonDialog : Window
+    public partial class PersonsView : UserControl
     {
-        public PersonDialog()
+        public PersonsView()
         {
             InitializeComponent();
         }

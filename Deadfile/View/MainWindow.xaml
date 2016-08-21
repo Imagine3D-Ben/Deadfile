@@ -2,28 +2,42 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:view="clr-namespace:Deadfile.View"
+        xmlns:home="clr-namespace:Deadfile.Home"
+        xmlns:persons="clr-namespace:Deadfile.Persons"
         Title="MainWindow" 
         Width="1024" Height="768"
         MinWidth="350" MinHeight="300"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type persons:PersonsViewModel}">
+            <persons:PersonsView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type home:HomeViewModel}">
+            <home:HomeView />
+        </DataTemplate>
+    </Window.Resources>
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction
                          Command="{Binding AppStartCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid Name="MasterGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25*" MinWidth="180" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="75*" MinWidth="300" />
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" />
-        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Width="3" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        <Border Grid.Column="2" />
-        <view:PersonDirectoryView DataContext="{Binding PersonDirectoryViewModel}" Grid.Column="0" />
-        <view:PersonDetailsView DataContext="{Binding PersonDetailsViewModel}" Grid.Column="2"/>
-    </Grid>
+    <DockPanel>
+        <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0,0,1,0">
+            <ItemsControl ItemsSource="{Binding PageViewModels}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Name}"
+                                Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                CommandParameter="{Binding }"
+                                Margin="2,5"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <ContentControl Content="{Binding CurrentPageViewModel}" />
+    </DockPanel>
 </Window>

@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.Unity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,23 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Deadfile.ViewModel;
 
-namespace Deadfile
+namespace Deadfile.Persons
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PersonDirectoryView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PersonDirectoryView : UserControl
     {
-        private readonly MainWindowViewModel viewModel = null;
-
-        public MainWindow(IUnityContainer container)
+        public PersonDirectoryView()
         {
             InitializeComponent();
-            viewModel = container.Resolve<MainWindowViewModel>();
-            this.DataContext = viewModel;
         }
-
     }
 }

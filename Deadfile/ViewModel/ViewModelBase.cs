@@ -59,7 +59,6 @@ namespace Deadfile.ViewModel
             {
                 isBusy = value;
                 this.OnPropertyChanged("IsBusy");
-
             }
         }
 

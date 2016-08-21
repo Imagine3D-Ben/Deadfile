@@ -53,7 +53,7 @@
     </InheritanceLine>
     <TypeIdentifier>
       <HashCode>EIIAABAAAAAAAEAAAAAAQAAAAAAAAEACAAAAAACAAAA=</HashCode>
-      <FileName>ViewModel\PersonDialogViewModel.cs</FileName>
+      <FileName>Persons\PersonDialogViewModel.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Person" />

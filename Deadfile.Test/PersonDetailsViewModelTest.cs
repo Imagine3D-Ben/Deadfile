@@ -3,10 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Deadfile.ViewModel;
 using FluentAssertions;
 using System.ComponentModel;
-using Deadfile.View;
 using Moq;
 using System.Windows;
 using Deadfile.Model;
+using Deadfile.Persons;
 
 namespace Deadfile.Test
 {

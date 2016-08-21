@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Deadfile.Model;
 using Deadfile.ViewModel;
+using Deadfile.Persons;
 
 namespace Deadfile.Test
 {

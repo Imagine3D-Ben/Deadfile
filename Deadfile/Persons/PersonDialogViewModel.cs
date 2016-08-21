@@ -9,8 +9,9 @@ using Deadfile.Data;
 using Deadfile.Helpers;
 using Deadfile.Model;
 using Deadfile.Services;
+using Deadfile.ViewModel;
 
-namespace Deadfile.ViewModel
+namespace Deadfile.Persons
 {
     public class PersonDialogViewModel : ViewModelBase
     {

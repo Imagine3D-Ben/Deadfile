@@ -104,6 +104,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\AsyncCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Events\PersonDeletedEvent.cs" />
     <Compile Include="Events\PersonDirectoryUpdatedEvent.cs" />
     <Compile Include="Events\SelectedPersonChangeEvent.cs" />
@@ -124,17 +125,26 @@
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IWindowViewModelMappings.cs" />
     <Compile Include="Services\WindowViewModelMappings.cs" />
-    <Compile Include="ViewModel\PersonDialogViewModel.cs" />
-    <Compile Include="View\PersonDetailsView.xaml.cs">
+    <Compile Include="ViewModel\PageViewModel.cs" />
+    <Compile Include="Persons\PersonDialogViewModel.cs" />
+    <Compile Include="Persons\PersonDetailsView.xaml.cs">
       <DependentUpon>PersonDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PersonDialog.xaml.cs">
+    <Compile Include="Persons\PersonDialog.xaml.cs">
       <DependentUpon>PersonDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PersonDirectoryView.xaml.cs">
+    <Compile Include="Persons\PersonDirectoryView.xaml.cs">
       <DependentUpon>PersonDirectoryView.xaml</DependentUpon>
     </Compile>
     <Page Include="View\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Persons\PersonsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Home\HomeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -147,22 +157,32 @@
     <Compile Include="Data\PersonService.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\PersonDetailsViewModel.cs" />
-    <Compile Include="ViewModel\PersonDirectoryViewModel.cs" />
+    <Compile Include="Persons\PersonsViewModel.cs" />
+    <Compile Include="Home\HomeViewModel.cs" />
+    <Compile Include="Persons\PersonDetailsViewModel.cs" />
+    <Compile Include="Persons\PersonDirectoryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\PersonDetailsView.xaml">
+    <Compile Include="Home\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persons\PersonsView.xaml.cs">
+      <DependentUpon>PersonsView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Persons\PersonDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PersonDialog.xaml">
+    <Page Include="Persons\PersonDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PersonDirectoryView.xaml">
+    <Page Include="Persons\PersonDirectoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

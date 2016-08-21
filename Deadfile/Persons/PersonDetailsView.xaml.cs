@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Deadfile.View
+namespace Deadfile.Persons
 {
     /// <summary>
     /// Interaction logic for PersonDetailsView.xaml
