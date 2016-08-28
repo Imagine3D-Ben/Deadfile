@@ -13,27 +13,73 @@ using Deadfile.Helpers;
 using Deadfile.Model;
 using Deadfile.Services;
 using Deadfile.ViewModel;
+using System.Windows.Data;
+using System.ComponentModel;
+using ObservableImmutable;
 
 namespace Deadfile.Persons
 {
     public class PersonDirectoryViewModel : ViewModelBase
     {
-        readonly RangeEnabledObservableCollection<Person> personDirectory;
+        readonly ObservableImmutableList<Person> personDirectory;
         Person selectedPerson;
 
         public PersonDirectoryViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService) 
             : base(personService, dispatcher, aggregator, dialogService)
         {
-            personDirectory = new RangeEnabledObservableCollection<Person>();
-            aggregator.GetEvent<PersonDirectoryUpdatedEvent>().Subscribe(OnPersonDirectoryUpdated, ThreadOption.BackgroundThread);
-            aggregator.GetEvent<PersonDeletedEvent>().Subscribe(OnPersonDeleted, ThreadOption.UIThread);
+            personDirectory = new ObservableImmutableList<Person>(dispatcher);
+            aggregator.GetEvent<PersonDirectoryUpdatedEvent>().Subscribe(OnPersonDirectoryUpdated, dispatcher.BackgroundThread());
+            PersonDirectoryLinks = new CollectionViewSource();
+            PersonDirectoryLinks.Source = InnerPersonDirectory;
+            PersonDirectoryLinks.Filter += ApplyFilter;
+            aggregator.GetEvent<PersonDeletedEvent>().Subscribe(OnPersonDeleted, dispatcher.UIThread());
+            aggregator.GetEvent<PersonFilterEvent>().Subscribe((s) => PersonDirectoryLinks.View.Refresh(), dispatcher.UIThread());
         }
 
-        public RangeEnabledObservableCollection<Person> PersonDirectory
+        void ApplyFilter(object sender, FilterEventArgs e)
+        {
+            //each item is a specific object
+            Person si = (Person)e.Item;
+            if (PersonFilter == null)
+            {
+                e.Accepted = true;
+            }
+            else
+            {
+                e.Accepted = si.FullName.ToUpper().Contains(PersonFilter.ToUpper());
+            }
+        }
+
+        internal ObservableImmutableList<Person> InnerPersonDirectory
         {
             get
             {
                 return this.personDirectory;
+            }
+        }
+
+        internal CollectionViewSource PersonDirectoryLinks { get; set; }
+
+        public ICollectionView PersonDirectory
+        {
+            get { return PersonDirectoryLinks.View; }
+        }
+
+        private string personFilter = "";
+        public string PersonFilter
+        {
+            get
+            {
+                return personFilter;
+            }
+            set
+            {
+                if (this.personFilter != value)
+                {
+                    this.personFilter = value;
+                    OnPropertyChanged("PersonFilter");
+                    aggregator.GetEvent<PersonFilterEvent>().Publish(this.personFilter);
+                }
             }
         }
 
@@ -62,23 +108,21 @@ namespace Deadfile.Persons
                 try
                 {
                     var persons = this.personService.GetPersons();
-                    var previouslySelectedPerson = selectedPerson;
-                    dispatcher.Invoke(() =>
+//                    var previouslySelectedPerson = selectedPerson;
+                    personDirectory.DoOperation((items) =>
                         {
-                            personDirectory.Clear();
-                            personDirectory.AddRange(persons);
-                            if (previouslySelectedPerson != null)
-                            {
-                                if (personDirectory.Any(p => p.Id == previouslySelectedPerson.Id))
-                                {
-                                    SelectedPerson = previouslySelectedPerson;
-                                }
-                            }
+                            return items.Clear().AddRange(persons.Where((p) => p.FullName.ToUpper().Contains(personFilter)));
+//                            if (newItems.Any(p => p.Id == previouslySelectedPerson.Id))
+//                            {
+//                                SelectedPerson = previouslySelectedPerson;
+//                            }
+//                            return newItems;
                         });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     //TODO: Publish operation failed
+                    throw new ApplicationException("Exception failed in refresh", ex);
                 }
                 finally
                 {

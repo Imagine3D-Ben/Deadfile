@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Deadfile.Helpers
 {
-    public interface IDispatcher
-    {
-        void Invoke(Action action);
+    //public interface IDispatcher
+    //{
+    //    void Invoke(Action action);
 
-        void BeginInvoke(Action action);
-    }
+    //    void BeginInvoke(Action action);
+    //}
 }

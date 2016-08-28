@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,15 +13,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Deadfile.ViewModel;
+using System.Windows.Media.Animation;
 
-namespace Deadfile.Whatever
+namespace Deadfile.View
 {
     /// <summary>
-    /// Interaction logic for WhateverView.xaml
+    /// Interaction logic for PageView.xaml
     /// </summary>
-    public partial class WhateverView : UserControl
+    public partial class PageView : UserControl
     {
-        public WhateverView()
+        public PageView()
         {
             InitializeComponent();
         }

@@ -12,4 +12,7 @@ namespace Deadfile.Events
     public class PersonDeletedEvent : PubSubEvent<Person>
     {
     }
+    public class PersonFilterEvent : PubSubEvent<string>
+    {
+    }
 }

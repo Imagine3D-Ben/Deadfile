@@ -53,8 +53,9 @@
     <Reference Include="Microsoft.Practices.Prism.Mvvm.Desktop">
       <HintPath>..\packages\Prism.Mvvm.1.0.0\lib\net45\Microsoft.Practices.Prism.Mvvm.Desktop.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.PubSubEvents">
-      <HintPath>..\packages\Prism.PubSubEvents.1.0.0\lib\portable-sl4+wp7+windows8+net40\Microsoft.Practices.Prism.PubSubEvents.dll</HintPath>
+    <Reference Include="Microsoft.Practices.Prism.PubSubEvents, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.PubSubEvents.1.1.2\lib\portable-sl5+windowsphone8+windows8+net40+wpa81\Microsoft.Practices.Prism.PubSubEvents.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.SharedInterfaces">
       <HintPath>..\packages\Prism.Mvvm.1.0.0\lib\net45\Microsoft.Practices.Prism.SharedInterfaces.dll</HintPath>
@@ -68,6 +69,10 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.2.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -86,6 +91,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DispatcherUtil.cs" />
     <Compile Include="PersonDialogViewModelTest.cs" />
     <Compile Include="PersonDirectoryViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,12 +99,17 @@
     <Compile Include="PersonDetailsViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deadfile\Deadfile.csproj">
-      <Project>{1a82b25e-da44-45f7-a95a-116f74ec3d54}</Project>
+      <Project>{6842d6a7-47e9-43ef-94d4-6236520b6fb9}</Project>
       <Name>Deadfile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ObservableImmutable\ObservableImmutable.csproj">
+      <Project>{1A82B25E-DA44-45F7-A95A-116F74EC3D54}</Project>
+      <Name>ObservableImmutable</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

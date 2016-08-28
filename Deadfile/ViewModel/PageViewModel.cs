@@ -2,6 +2,7 @@
 using Deadfile.Helpers;
 using Deadfile.Services;
 using Microsoft.Practices.Prism.PubSubEvents;
+using ObservableImmutable;
 using System;
 using System.Collections.Generic;
 using System.Linq;

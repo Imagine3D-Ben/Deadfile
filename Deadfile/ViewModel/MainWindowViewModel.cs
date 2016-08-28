@@ -10,8 +10,8 @@ using Deadfile.Data;
 using Deadfile.Helpers;
 using Deadfile.Services;
 using Deadfile.Home;
-using Deadfile.Whatever;
 using Deadfile.Persons;
+using ObservableImmutable;
 
 namespace Deadfile.ViewModel
 {
@@ -23,15 +23,16 @@ namespace Deadfile.ViewModel
 
         public ICommand AppStartCommand { get; private set; }
 
-        public MainWindowViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService)
+        public MainWindowViewModel(IDeadfileDbService databaseService, IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IExitService exitService)
             : base(personService, dispatcher, aggregator, dialogService)
         {
             PageViewModels = new List<ViewModel.PageViewModel>();
-            PageViewModels.Add(new PersonsViewModel(personService, dispatcher, aggregator, dialogService));
             PageViewModels.Add(new HomeViewModel(personService, dispatcher, aggregator, dialogService));
-            PageViewModels.Add(new WhateverViewModel(personService, dispatcher, aggregator, dialogService));
+            PageViewModels.Add(new PersonsViewModel(personService, dispatcher, aggregator, dialogService));
             CurrentPageViewModel = PageViewModels[0];
             ChangePageCommand = new RelayCommand(p => ChangeViewModel((PageViewModel)p), p => p is PageViewModel);
+            MenuConnect = new RelayCommand(p => exitService.Exit());
+            MenuExit = new RelayCommand(p => exitService.Exit());
 
             AppStartCommand = new AsyncCommand(() => Task.WhenAll(PageViewModels.Select((vm) => vm.StartTask()).ToArray()));
         }
@@ -61,5 +62,8 @@ namespace Deadfile.ViewModel
                 }
             }
         }
+
+        public ICommand MenuExit { get; private set; }
+        public ICommand MenuConnect { get; private set; }
     }
 }

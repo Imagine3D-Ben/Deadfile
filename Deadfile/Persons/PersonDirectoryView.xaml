@@ -8,7 +8,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <toolkit:BusyIndicator IsBusy="{Binding IsBusy}">
         <Grid>
-            <ListView x:Name="lvPersonDirectory" ItemsSource="{Binding PersonDirectory}" SelectedItem="{Binding SelectedPerson}">
+            <TextBox Grid.Row="0" x:Name="tbPersonFilter" HorizontalAlignment="Center" Height="23" Margin="0,0,0,0" TextWrapping="NoWrap" Text="{Binding PersonFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="300"/>
+            <ListView x:Name="lvPersonDirectory" ItemsSource="{Binding PersonDirectory}" SelectedItem="{Binding SelectedPerson}" Margin="0,28,0,0">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="300" DisplayMemberBinding="{Binding FullName}"/>

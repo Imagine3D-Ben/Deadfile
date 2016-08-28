@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1A82B25E-DA44-45F7-A95A-116F74EC3D54}</ProjectGuid>
+    <ProjectGuid>{6842D6A7-47E9-43EF-94D4-6236520B6FB9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Deadfile</RootNamespace>
@@ -46,8 +46,9 @@
     <Reference Include="Microsoft.Practices.Prism.Mvvm.Desktop">
       <HintPath>..\packages\Prism.Mvvm.1.0.0\lib\net45\Microsoft.Practices.Prism.Mvvm.Desktop.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.PubSubEvents">
-      <HintPath>..\packages\Prism.PubSubEvents.1.0.0\lib\portable-sl4+wp7+windows8+net40\Microsoft.Practices.Prism.PubSubEvents.dll</HintPath>
+    <Reference Include="Microsoft.Practices.Prism.PubSubEvents, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.PubSubEvents.1.1.2\lib\portable-sl5+windowsphone8+windows8+net40+wpa81\Microsoft.Practices.Prism.PubSubEvents.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.SharedInterfaces">
       <HintPath>..\packages\Prism.Mvvm.1.0.0\lib\net45\Microsoft.Practices.Prism.SharedInterfaces.dll</HintPath>
@@ -65,6 +66,10 @@
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.2.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -105,6 +110,8 @@
     </ApplicationDefinition>
     <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Data\DeadfileDbService.cs" />
+    <Compile Include="Data\IDeadfileDbService.cs" />
     <Compile Include="Events\PersonDeletedEvent.cs" />
     <Compile Include="Events\PersonDirectoryUpdatedEvent.cs" />
     <Compile Include="Events\SelectedPersonChangeEvent.cs" />
@@ -112,6 +119,9 @@
     <Compile Include="Helpers\DispatcherWrapper.cs" />
     <Compile Include="Helpers\IDispatcher.cs" />
     <Compile Include="Helpers\RangeEnabledObservableCollection.cs" />
+    <Compile Include="Home\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\BillableHours.cs" />
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\Employee.cs" />
@@ -121,8 +131,14 @@
     <Compile Include="Model\JobStatus.cs" />
     <Compile Include="Model\Payment.cs" />
     <Compile Include="Model\Quotation.cs" />
+    <Compile Include="Persons\PersonButtonsView.xaml.cs">
+      <DependentUpon>PersonButtonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Persons\PersonButtonsViewModel.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\ExitService.cs" />
     <Compile Include="Services\IDialogService.cs" />
+    <Compile Include="Services\IExitService.cs" />
     <Compile Include="Services\IWindowViewModelMappings.cs" />
     <Compile Include="Services\WindowViewModelMappings.cs" />
     <Compile Include="ViewModel\PageViewModel.cs" />
@@ -136,21 +152,21 @@
     <Compile Include="Persons\PersonDirectoryView.xaml.cs">
       <DependentUpon>PersonDirectoryView.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Persons\PersonsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Home\HomeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Whatever\WhateverView.xaml">
+    <Page Include="Persons\PersonButtonsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -163,24 +179,15 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="Persons\PersonsViewModel.cs" />
     <Compile Include="Home\HomeViewModel.cs" />
-    <Compile Include="Whatever\WhateverViewModel.cs" />
+    <Compile Include="ViewModel\TwoColumnPageViewModel.cs" />
+    <Compile Include="View\PageView.xaml.cs">
+      <DependentUpon>PageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Persons\PersonDetailsViewModel.cs" />
     <Compile Include="Persons\PersonDirectoryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Home\HomeView.xaml.cs">
-      <DependentUpon>HomeView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Whatever\WhateverView.xaml.cs">
-      <DependentUpon>WhateverView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Persons\PersonsView.xaml.cs">
-      <DependentUpon>PersonsView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Persons\PersonDetailsView.xaml">
@@ -225,7 +232,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ObservableImmutable\ObservableImmutable.csproj">
+      <Project>{1a82b25e-da44-45f7-a95a-116f74ec3d54}</Project>
+      <Name>ObservableImmutable</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

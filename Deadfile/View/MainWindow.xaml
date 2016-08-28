@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:home="clr-namespace:Deadfile.Home"
-        xmlns:whatever="clr-namespace:Deadfile.Whatever"
         xmlns:persons="clr-namespace:Deadfile.Persons"
+        xmlns:view="clr-namespace:Deadfile.View"
         Title="MainWindow" 
         Width="1024" Height="768"
         MinWidth="350" MinHeight="300"
@@ -12,13 +12,10 @@
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate DataType="{x:Type persons:PersonsViewModel}">
-            <persons:PersonsView />
+            <view:PageView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type home:HomeViewModel}">
             <home:HomeView />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type whatever:WhateverViewModel}">
-            <whatever:WhateverView />
         </DataTemplate>
     </Window.Resources>
 
@@ -29,6 +26,13 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <DockPanel>
+        <Menu DockPanel.Dock="Top" x:Name="menu" Height="20" VerticalAlignment="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Connect" Command="{Binding MenuConnect}" />
+                <Separator />
+                <MenuItem Header="_Exit" Command="{Binding MenuExit}" />
+            </MenuItem>
+        </Menu>
         <Border DockPanel.Dock="Left" BorderBrush="Black" BorderThickness="0,0,1,0">
             <ItemsControl ItemsSource="{Binding PageViewModels}">
                 <ItemsControl.ItemTemplate>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Deadfile.ViewModel;
 using FluentAssertions;
@@ -56,7 +57,7 @@ namespace Deadfile.Test
             viewModel.RefreshAsync().Wait();
 
             //Assert
-            CollectionAssert.AreEqual(persons, viewModel.PersonDirectory);
+            CollectionAssert.AreEqual(persons, viewModel.PersonDirectory.Cast<Person>().ToList());
         }
 
         [TestMethod]
@@ -108,7 +109,7 @@ namespace Deadfile.Test
 
             GivenEmptyViewModel();
             WhenDirectoryUpdateEventIsReceived();
-            CollectionAssert.AreEqual(persons, viewModel.PersonDirectory);
+            CollectionAssert.AreEqual(persons, viewModel.PersonDirectory.Cast<Person>().ToList());
         }
 
         public void PersonDirectoryViewModel_GivenPersonDirectory_WhenPersonDeletedEventIsReceived_PersonShouldBeRemovedFromDirectory()
@@ -125,7 +126,7 @@ namespace Deadfile.Test
 
             GivenPersonDirectory();
             WhenPersonDeletedEventIsReceived(persons[0]);
-            CollectionAssert.DoesNotContain(viewModel.PersonDirectory, persons[0]);
+            CollectionAssert.DoesNotContain(viewModel.PersonDirectory.Cast<Person>().ToList(), persons[0]);
         }
     }
 }

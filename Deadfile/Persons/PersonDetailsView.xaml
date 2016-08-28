@@ -21,11 +21,6 @@
                 <Label FontWeight="Bold">Age:</Label>
                 <TextBlock Text="{Binding Person.Age}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Button Margin="5" Command="{Binding NewPersonCommand}">New person</Button>
-                <Button Margin="5" Command="{Binding EditPersonCommand}">Edit person</Button>
-                <Button Margin="5" Command="{Binding DeletePersonCommand}">Delete person</Button>
-            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -12,6 +12,7 @@ using Deadfile.Data;
 using Deadfile.Helpers;
 using Deadfile.Services;
 using Deadfile.ViewModel;
+using ObservableImmutable;
 
 namespace Deadfile
 {
@@ -37,6 +38,8 @@ namespace Deadfile
                 container.RegisterType<IPersonService, PersonService>();
                 container.RegisterType<IWindowViewModelMappings, WindowViewModelMappings>();
                 container.RegisterInstance<IDialogService>(new DialogService());
+                container.RegisterInstance<IExitService>(new ExitService(() => Environment.Exit(0)));
+                container.RegisterType<IDeadfileDbService, DeadfileDbService>();
 
                 var window = container.Resolve<MainWindow>();
                 window.Show();

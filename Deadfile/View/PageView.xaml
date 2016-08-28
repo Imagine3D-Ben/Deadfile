@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Deadfile.View.PageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:persons="clr-namespace:Deadfile.Persons"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type persons:PersonDirectoryViewModel}">
+            <persons:PersonDirectoryView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type persons:PersonDetailsViewModel}">
+            <persons:PersonDetailsView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type persons:PersonButtonsViewModel}">
+            <persons:PersonButtonsView />
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid Name="PageGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="75*" MinWidth="300" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75*" MinHeight="300" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border Grid.Column="0" />
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Width="3" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Border Grid.Column="2" />
+        <Expander ExpandDirection="Right">
+            <ContentControl Content="{Binding LeftControlViewModel}" Grid.Column="0" />
+        </Expander>
+        <ContentControl Content="{Binding RightControlTopViewModel}" Grid.Column="2" Grid.Row="0" />
+        <GridSplitter Grid.Row="1" ResizeDirection="Rows" Width="3" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <ContentControl Content="{Binding RightControlBottomViewModel}" Grid.Column="2" Grid.Row="2" />
+    </Grid>
+</UserControl>

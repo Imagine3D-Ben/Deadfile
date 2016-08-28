@@ -12,6 +12,7 @@ using Deadfile.Helpers;
 using Deadfile.Model;
 using Deadfile.Services;
 using Deadfile.ViewModel;
+using ObservableImmutable;
 
 namespace Deadfile.Persons
 {

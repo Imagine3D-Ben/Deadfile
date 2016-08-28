@@ -11,6 +11,8 @@ using Deadfile.Events;
 using Deadfile.Helpers;
 using Deadfile.Model;
 using Deadfile.Services;
+using ObservableImmutable;
+using System.Windows.Threading;
 
 namespace Deadfile.Test
 {
@@ -24,6 +26,7 @@ namespace Deadfile.Test
         protected Mock<SelectedPersonChangeEvent> currentPersonChangeEventMock = new Mock<SelectedPersonChangeEvent>();
         protected Mock<PersonDirectoryUpdatedEvent> personDirectoryUpdatedEventMock = new Mock<PersonDirectoryUpdatedEvent>();
         protected Mock<PersonDeletedEvent> personDeletedEventMock = new Mock<PersonDeletedEvent>();
+        protected Mock<PersonFilterEvent> personFilterEventMock = new Mock<PersonFilterEvent>();
 
         protected readonly List<Person> persons;
 
@@ -57,13 +60,20 @@ namespace Deadfile.Test
         {
             dispatcherMock.Setup(x => x.Invoke(It.IsAny<Action>())).Callback((Action a) => a());
             dispatcherMock.Setup(x => x.BeginInvoke(It.IsAny<Action>())).Callback((Action a) => a());
+            dispatcherMock.Setup(x => x.BeginInvoke(It.IsAny<DispatcherPriority>(), It.IsAny<Action>())).Callback((DispatcherPriority priority, Action a) => a());
+            dispatcherMock.Setup(x => x.BeginInvoke(It.IsAny<DispatcherPriority>(), It.IsAny<DispatcherOperationCallback>(), It.IsAny<DispatcherFrame>())).Callback((DispatcherPriority priority, DispatcherOperationCallback callback, DispatcherFrame frame) => callback.Invoke(frame));
+            dispatcherMock.Setup(x => x.PushFrame(It.IsAny<DispatcherFrame>())).Callback((DispatcherFrame frame) => { });
+            dispatcherMock.Setup(x => x.BackgroundThread()).Returns(ThreadOption.PublisherThread);
+            dispatcherMock.Setup(x => x.UIThread()).Returns(ThreadOption.PublisherThread);
+            dispatcherMock.Setup(x => x.Invoke(It.IsAny<DispatcherPriority>(), It.IsAny<Delegate>(), It.IsAny<object>(), It.IsAny<object>())).Callback((DispatcherPriority priority, Action<object, object> del, object invoker, object args) => del(invoker, args));
         }
 
-        private void AggregatorSetup()
+    private void AggregatorSetup()
         {
             aggregatorMock.Setup(x => x.GetEvent<SelectedPersonChangeEvent>()).Returns(currentPersonChangeEventMock.Object);
             aggregatorMock.Setup(x => x.GetEvent<PersonDirectoryUpdatedEvent>()).Returns(personDirectoryUpdatedEventMock.Object);
             aggregatorMock.Setup(x => x.GetEvent<PersonDeletedEvent>()).Returns(personDeletedEventMock.Object);
+            aggregatorMock.Setup(x => x.GetEvent<PersonFilterEvent>()).Returns(personFilterEventMock.Object);
         }
 
         protected void AssertValidMessageBoxWasDisplayed(object expectedViewModel, string expectedText, string expectedCaption, MessageBoxButton expectedButtons, MessageBoxImage expectedImage, string failMessage)

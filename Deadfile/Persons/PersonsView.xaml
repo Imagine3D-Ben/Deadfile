@@ -9,14 +9,16 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Name="PersonsGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25*" MinWidth="180" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="75*" MinWidth="300" />
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" />
         <GridSplitter Grid.Column="1" ResizeDirection="Columns" Width="3" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <Border Grid.Column="2" />
-        <persons:PersonDirectoryView DataContext="{Binding PersonDirectoryViewModel}" Grid.Column="0" />
+        <Expander ExpandDirection="Right">
+            <persons:PersonDirectoryView DataContext="{Binding PersonDirectoryViewModel}" Grid.Column="0" />
+        </Expander>
         <persons:PersonDetailsView DataContext="{Binding PersonDetailsViewModel}" Grid.Column="2"/>
     </Grid>
 </UserControl>

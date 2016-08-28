@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Deadfile.Data;
 using Deadfile.Helpers;
 using Deadfile.Services;
+using ObservableImmutable;
 
 namespace Deadfile.ViewModel
 {
