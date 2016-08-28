@@ -23,7 +23,7 @@ namespace Deadfile.ViewModel
 
         public ICommand AppStartCommand { get; private set; }
 
-        public MainWindowViewModel(IDeadfileDbService databaseService, IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IExitService exitService, ILock chubFactory)
+        public MainWindowViewModel(IDeadfileDbService databaseService, IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IExitService exitService, IChubbFactory chubFactory)
             : base(personService, dispatcher, aggregator, dialogService)
         {
             PageViewModels = new List<ViewModel.PageViewModel>();

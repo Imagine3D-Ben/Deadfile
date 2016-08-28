@@ -24,7 +24,7 @@ namespace Deadfile.Persons
         readonly ObservableImmutableList<Person> personDirectory;
         Person selectedPerson;
 
-        public PersonDirectoryViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, ILock chubFactory) 
+        public PersonDirectoryViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IChubbFactory chubFactory) 
             : base(personService, dispatcher, aggregator, dialogService)
         {
             personDirectory = new ObservableImmutableList<Person>(dispatcher, chubFactory);

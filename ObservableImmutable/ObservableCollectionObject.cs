@@ -11,7 +11,7 @@ namespace ObservableImmutable
     {
         #region Private
 
-        private readonly IChub chub;
+        private readonly IChubb chubb;
         private IDispatcher dispatcher;
 
         #endregion Private
@@ -31,10 +31,10 @@ namespace ObservableImmutable
 
         #region Constructor
 
-        protected ObservableCollectionObject(LockTypeEnum lockType, IDispatcher dispatcher, ILock locker)
+        protected ObservableCollectionObject(LockTypeEnum lockType, IDispatcher dispatcher, IChubbFactory chubbFactory)
         {
             _lockType = lockType;
-            chub = locker.CreateChub();
+            chubb = chubbFactory.CreateChubb();
             this.dispatcher = dispatcher;
         }
 
@@ -56,7 +56,7 @@ namespace ObservableImmutable
         {
             var dispatcher = GetDispatcher();
 
-            chub.WaitForCondition(LockType, condition);
+            chubb.WaitForCondition(LockType, condition);
         }
 
         protected void PumpWait_PumpUntil(IDispatcher dispatcher, Func<bool> condition)
@@ -107,19 +107,19 @@ namespace ObservableImmutable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected bool TryLock()
         {
-            return chub.TryLock(LockType);
+            return chubb.TryLock(LockType);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void Lock()
         {
-            chub.Lock(LockType);
+            chubb.Lock(LockType);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void Unlock()
         {
-            chub.Unlock(LockType);
+            chubb.Unlock(LockType);
         }
 
         #endregion SpinWait/PumpWait Methods

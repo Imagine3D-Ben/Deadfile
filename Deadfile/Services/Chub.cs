@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Deadfile.Services
 {
-    public sealed class ChubFactory : ILock
+    public sealed class ChubFactory : IChubbFactory
     {
-        public IChub CreateChub()
+        public IChubb CreateChubb()
         {
             return new Chub();
         }
     }
 
-    public sealed class Chub : IChub
+    public sealed class Chub : IChubb
     {
         private bool _lockObjWasTaken;
         private readonly object _lockObj;

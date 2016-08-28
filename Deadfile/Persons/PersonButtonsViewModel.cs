@@ -18,8 +18,6 @@ namespace Deadfile.Persons
 {
     public class PersonButtonsViewModel : ViewModelBase
     {
-        Person person;
-
         public ICommand NewPersonCommand { get; private set; }
         public ICommand EditPersonCommand { get; private set; }
         public ICommand DeletePersonCommand { get; private set; }

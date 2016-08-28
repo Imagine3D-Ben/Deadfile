@@ -27,8 +27,8 @@ namespace Deadfile.Test
         protected Mock<IDispatcher> dispatcherMock = new Mock<IDispatcher>();
         protected Mock<IEventAggregator> aggregatorMock = new Mock<IEventAggregator>();
         protected Mock<IDialogService> dialogServiceMock = new Mock<IDialogService>();
-        protected Mock<ILock> chubFactoryMock = new Mock<ILock>();
-        protected Mock<IChub> chubMock = new Mock<IChub>();
+        protected Mock<IChubbFactory> chubbFactoryMock = new Mock<IChubbFactory>();
+        protected Mock<IChubb> chubMock = new Mock<IChubb>();
 
         protected Mock<SelectedPersonChangeEvent> currentPersonChangeEventMock = new Mock<SelectedPersonChangeEvent>();
         protected Mock<PersonDirectoryUpdatedEvent> personDirectoryUpdatedEventMock = new Mock<PersonDirectoryUpdatedEvent>();
@@ -84,7 +84,7 @@ namespace Deadfile.Test
 
         private void ChubFactorySetup()
         {
-            chubFactoryMock.Setup(x => x.CreateChub()).Returns(chubMock.Object);
+            chubbFactoryMock.Setup(x => x.CreateChubb()).Returns(chubMock.Object);
             chubMock.Setup(x => x.Lock(It.IsAny<LockTypeEnum>())).Callback((LockTypeEnum a) => { });
             chubMock.Setup(x => x.Unlock(It.IsAny<LockTypeEnum>())).Callback((LockTypeEnum a) => { });
             chubMock.Setup(x => x.TryLock(It.IsAny<LockTypeEnum>())).Returns(true);

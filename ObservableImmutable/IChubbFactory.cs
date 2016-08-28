@@ -12,7 +12,7 @@ namespace ObservableImmutable
         Lock
     }
 
-    public interface IChub
+    public interface IChubb
     {
         void WaitForCondition(LockTypeEnum lockType, Func<bool> condition);
         bool TryLock(LockTypeEnum lockType);
@@ -20,8 +20,8 @@ namespace ObservableImmutable
         void Unlock(LockTypeEnum lockType);
     }
 
-    public interface ILock
+    public interface IChubbFactory
     {
-        IChub CreateChub();
+        IChubb CreateChubb();
     }
 }

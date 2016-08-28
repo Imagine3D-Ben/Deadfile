@@ -19,19 +19,19 @@ namespace ObservableImmutable
 
         #region Constructors
 
-        public ObservableImmutableDictionary(IDispatcher dispatcher, ILock chubFactory) : this(new KeyValuePair<T, V>[0], LockTypeEnum.SpinWait, dispatcher, chubFactory)
+        public ObservableImmutableDictionary(IDispatcher dispatcher, IChubbFactory chubbFactory) : this(new KeyValuePair<T, V>[0], LockTypeEnum.SpinWait, dispatcher, chubbFactory)
         {
         }
 
-        public ObservableImmutableDictionary(IEnumerable<KeyValuePair<T, V>> items, IDispatcher dispatcher, ILock chubFactory) : this(items, LockTypeEnum.SpinWait, dispatcher, chubFactory)
+        public ObservableImmutableDictionary(IEnumerable<KeyValuePair<T, V>> items, IDispatcher dispatcher, IChubbFactory chubbFactory) : this(items, LockTypeEnum.SpinWait, dispatcher, chubbFactory)
         {
         }
 
-        public ObservableImmutableDictionary(LockTypeEnum lockType, IDispatcher dispatcher, ILock chubFactory) : this(new KeyValuePair<T, V>[0], lockType, dispatcher, chubFactory)
+        public ObservableImmutableDictionary(LockTypeEnum lockType, IDispatcher dispatcher, IChubbFactory chubbFactory) : this(new KeyValuePair<T, V>[0], lockType, dispatcher, chubbFactory)
         {
         }
 
-        public ObservableImmutableDictionary(IEnumerable<KeyValuePair<T, V>> items, LockTypeEnum lockType, IDispatcher dispatcher, ILock chubFactory) : base(lockType, dispatcher, chubFactory)
+        public ObservableImmutableDictionary(IEnumerable<KeyValuePair<T, V>> items, LockTypeEnum lockType, IDispatcher dispatcher, IChubbFactory chubbFactory) : base(lockType, dispatcher, chubbFactory)
         {
             _syncRoot = new object();
             _items = ImmutableDictionary<T, V>.Empty.AddRange(items);

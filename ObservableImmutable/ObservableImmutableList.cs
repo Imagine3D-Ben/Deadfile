@@ -20,19 +20,19 @@ namespace ObservableImmutable
 
         #region Constructors
 
-        public ObservableImmutableList(IDispatcher dispatcher, ILock chubFactory) : this(new T[0], LockTypeEnum.SpinWait, dispatcher, chubFactory)
+        public ObservableImmutableList(IDispatcher dispatcher, IChubbFactory chubFactory) : this(new T[0], LockTypeEnum.SpinWait, dispatcher, chubFactory)
         {
         }
 
-        public ObservableImmutableList(IEnumerable<T> items, IDispatcher dispatcher, ILock chubFactory) : this(items, LockTypeEnum.SpinWait, dispatcher, chubFactory)
+        public ObservableImmutableList(IEnumerable<T> items, IDispatcher dispatcher, IChubbFactory chubFactory) : this(items, LockTypeEnum.SpinWait, dispatcher, chubFactory)
         {
         }
 
-        public ObservableImmutableList(LockTypeEnum lockType, IDispatcher dispatcher, ILock chubFactory) : this(new T[0], lockType, dispatcher, chubFactory)
+        public ObservableImmutableList(LockTypeEnum lockType, IDispatcher dispatcher, IChubbFactory chubFactory) : this(new T[0], lockType, dispatcher, chubFactory)
         {
         }
 
-        public ObservableImmutableList(IEnumerable<T> items, LockTypeEnum lockType, IDispatcher dispatcher, ILock chubFactory) : base(lockType, dispatcher, chubFactory)
+        public ObservableImmutableList(IEnumerable<T> items, LockTypeEnum lockType, IDispatcher dispatcher, IChubbFactory chubFactory) : base(lockType, dispatcher, chubFactory)
         {
             _syncRoot = new object();
             _items = ImmutableList<T>.Empty.AddRange(items);

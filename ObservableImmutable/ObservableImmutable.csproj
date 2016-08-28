@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDispatcher.cs" />
-    <Compile Include="ILock.cs" />
+    <Compile Include="IChubbFactory.cs" />
     <Compile Include="ObservableCollectionObject.cs" />
     <Compile Include="ObservableImmutableDictionary.cs" />
     <Compile Include="ObservableImmutableList.cs" />

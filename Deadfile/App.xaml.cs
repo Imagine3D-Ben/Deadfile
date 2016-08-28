@@ -40,7 +40,7 @@ namespace Deadfile
                 container.RegisterInstance<IDialogService>(new DialogService());
                 container.RegisterInstance<IExitService>(new ExitService(() => Environment.Exit(0)));
                 container.RegisterType<IDeadfileDbService, DeadfileDbService>();
-                container.RegisterType<ILock, ChubFactory>();
+                container.RegisterType<IChubbFactory, ChubFactory>();
 
                 var window = container.Resolve<MainWindow>();
                 window.Show();
