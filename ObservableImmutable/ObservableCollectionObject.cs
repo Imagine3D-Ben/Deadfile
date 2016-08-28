@@ -11,9 +11,7 @@ namespace ObservableImmutable
     {
         #region Private
 
-        private bool _lockObjWasTaken;
-        private readonly object _lockObj;
-        private int _lock; // 0=unlocked        1=locked
+        private readonly IChub chub;
         private IDispatcher dispatcher;
 
         #endregion Private
@@ -33,10 +31,10 @@ namespace ObservableImmutable
 
         #region Constructor
 
-        protected ObservableCollectionObject(LockTypeEnum lockType, IDispatcher dispatcher)
+        protected ObservableCollectionObject(LockTypeEnum lockType, IDispatcher dispatcher, ILock locker)
         {
             _lockType = lockType;
-            _lockObj = new object();
+            chub = locker.CreateChub();
             this.dispatcher = dispatcher;
         }
 
@@ -58,24 +56,7 @@ namespace ObservableImmutable
         {
             var dispatcher = GetDispatcher();
 
-            if (dispatcher == null)
-            {
-                switch (LockType)
-                {
-                    case LockTypeEnum.SpinWait:
-                        SpinWait.SpinUntil(condition); // spin baby... 
-                        break;
-                    case LockTypeEnum.Lock:
-                        var isLockTaken = false;
-                        Monitor.Enter(_lockObj, ref isLockTaken);
-                        _lockObjWasTaken = isLockTaken;
-                        break;
-                }
-                return;
-            }
-
-            _lockObjWasTaken = true;
-            PumpWait_PumpUntil(dispatcher, condition);
+            chub.WaitForCondition(LockType, condition);
         }
 
         protected void PumpWait_PumpUntil(IDispatcher dispatcher, Func<bool> condition)
@@ -126,45 +107,19 @@ namespace ObservableImmutable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected bool TryLock()
         {
-            switch (LockType)
-            {
-                case LockTypeEnum.SpinWait:
-                    return Interlocked.CompareExchange(ref _lock, 1, 0) == 0;
-                case LockTypeEnum.Lock:
-                    return Monitor.TryEnter(_lockObj);
-            }
-
-            return false;
+            return chub.TryLock(LockType);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void Lock()
         {
-            switch (LockType)
-            {
-                case LockTypeEnum.SpinWait:
-                    WaitForCondition(() => Interlocked.CompareExchange(ref _lock, 1, 0) == 0);
-                    break;
-                case LockTypeEnum.Lock:
-                    WaitForCondition(() => Monitor.TryEnter(_lockObj));
-                    break;
-            }
+            chub.Lock(LockType);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void Unlock()
         {
-            switch (LockType)
-            {
-                case LockTypeEnum.SpinWait:
-                    _lock = 0;
-                    break;
-                case LockTypeEnum.Lock:
-                    if (_lockObjWasTaken)
-                        Monitor.Exit(_lockObj);
-                    _lockObjWasTaken = false;
-                    break;
-            }
+            chub.Unlock(LockType);
         }
 
         #endregion SpinWait/PumpWait Methods
@@ -216,14 +171,5 @@ namespace ObservableImmutable
 
         #endregion INotifyPropertyChanged
 
-        #region Nested Types
-
-        public enum LockTypeEnum
-        {
-            SpinWait,
-            Lock
-        }
-
-        #endregion Nested Types
     }
 }

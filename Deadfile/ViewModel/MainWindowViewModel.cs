@@ -23,12 +23,12 @@ namespace Deadfile.ViewModel
 
         public ICommand AppStartCommand { get; private set; }
 
-        public MainWindowViewModel(IDeadfileDbService databaseService, IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IExitService exitService)
+        public MainWindowViewModel(IDeadfileDbService databaseService, IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IExitService exitService, ILock chubFactory)
             : base(personService, dispatcher, aggregator, dialogService)
         {
             PageViewModels = new List<ViewModel.PageViewModel>();
             PageViewModels.Add(new HomeViewModel(personService, dispatcher, aggregator, dialogService));
-            PageViewModels.Add(new PersonsViewModel(personService, dispatcher, aggregator, dialogService));
+            PageViewModels.Add(new PersonsViewModel(personService, dispatcher, aggregator, dialogService, chubFactory));
             CurrentPageViewModel = PageViewModels[0];
             ChangePageCommand = new RelayCommand(p => ChangeViewModel((PageViewModel)p), p => p is PageViewModel);
             MenuConnect = new RelayCommand(p => exitService.Exit());

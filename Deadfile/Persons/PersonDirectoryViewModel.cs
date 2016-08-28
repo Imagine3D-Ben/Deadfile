@@ -24,10 +24,10 @@ namespace Deadfile.Persons
         readonly ObservableImmutableList<Person> personDirectory;
         Person selectedPerson;
 
-        public PersonDirectoryViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService) 
+        public PersonDirectoryViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, ILock chubFactory) 
             : base(personService, dispatcher, aggregator, dialogService)
         {
-            personDirectory = new ObservableImmutableList<Person>(dispatcher);
+            personDirectory = new ObservableImmutableList<Person>(dispatcher, chubFactory);
             aggregator.GetEvent<PersonDirectoryUpdatedEvent>().Subscribe(OnPersonDirectoryUpdated, dispatcher.BackgroundThread());
             PersonDirectoryLinks = new CollectionViewSource();
             PersonDirectoryLinks.Source = InnerPersonDirectory;

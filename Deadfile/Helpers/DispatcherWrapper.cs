@@ -33,15 +33,7 @@ namespace Deadfile.Helpers
 
         public DispatcherWrapper()
         {
-            if (Application.Current != null)
-            {
-                dispatcher = Application.Current.Dispatcher;
-            }
-            else
-            {
-                //this is useful for unit tests where there is no application running 
-                dispatcher = Dispatcher.CurrentDispatcher;
-            }
+            dispatcher = Application.Current.Dispatcher;
         }
         public void Invoke(Action action)
         {
@@ -70,14 +62,15 @@ namespace Deadfile.Helpers
 
         public void Invoke(DispatcherPriority priority, Action<object, object> callback, object invoker, object args)
         {
-            var dispatcherObject = callback.Target as DispatcherObject;
-
-            if (dispatcherObject != null && !dispatcherObject.CheckAccess())
-            {
-                dispatcherObject.Dispatcher.Invoke(priority, callback, invoker, args);
-            }
-            else
-                callback(invoker, args);
+            //            var dispatcherObject = callback.Target as DispatcherObject;
+            //
+            //            if (dispatcherObject != null && !dispatcherObject.CheckAccess())
+            //            {
+            //                dispatcherObject.Dispatcher.Invoke(priority, callback, invoker, args);
+            //            }
+            //            else
+            //                callback(invoker, args);
+            dispatcher.Invoke(() => callback(invoker, args));
         }
 
         public ThreadOption BackgroundThread()

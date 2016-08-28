@@ -21,6 +21,12 @@ namespace Deadfile.Test
             TestSetup();
         }
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            TestTeardown();
+        }
+
         private void GivenEmptyViewModel()
         {
             viewModel = new PersonDetailsViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object);

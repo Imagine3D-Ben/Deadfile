@@ -27,12 +27,12 @@ namespace Deadfile.Test
 
         private void GivenEmptyViewModel()
         {
-            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object);
+            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object, chubFactoryMock.Object);
         }
 
         private void GivenPersonDirectory()
         {
-            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object);
+            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object, chubFactoryMock.Object);
 
             viewModel.RefreshAsync().Wait();
         }
@@ -51,7 +51,7 @@ namespace Deadfile.Test
         public void PersonDirectoryViewModel_WhenRefreshIsCalled_PersonDirectoryShouldBeUpdated()
         {
             //Arrange
-            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object);
+            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object, chubFactoryMock.Object);
 
             //Act
             viewModel.RefreshAsync().Wait();

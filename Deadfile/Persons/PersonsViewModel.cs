@@ -22,10 +22,10 @@ namespace Deadfile.Persons
         public PersonDetailsViewModel PersonDetailsViewModel { get; private set; }
         public PersonButtonsViewModel PersonButtonsViewModel { get; private set; }
 
-        public PersonsViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService)
+        public PersonsViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, ILock chubFactory)
             : base(personService, dispatcher, aggregator, dialogService)
         {
-            PersonDirectoryViewModel = new PersonDirectoryViewModel(personService, dispatcher, aggregator, dialogService);
+            PersonDirectoryViewModel = new PersonDirectoryViewModel(personService, dispatcher, aggregator, dialogService, chubFactory);
             PersonDetailsViewModel = new PersonDetailsViewModel(personService, dispatcher, aggregator, dialogService);
             PersonButtonsViewModel = new PersonButtonsViewModel(personService, dispatcher, aggregator, dialogService, PersonDetailsViewModel.NewPersonCommand, PersonDetailsViewModel.EditPersonCommand, PersonDetailsViewModel.DeletePersonCommand);
         }
