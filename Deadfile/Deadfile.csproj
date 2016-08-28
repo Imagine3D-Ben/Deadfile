@@ -118,7 +118,6 @@
     <Compile Include="Helpers\DialogCloser.cs" />
     <Compile Include="Helpers\DispatcherWrapper.cs" />
     <Compile Include="Helpers\IDispatcher.cs" />
-    <Compile Include="Helpers\RangeEnabledObservableCollection.cs" />
     <Compile Include="Home\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
