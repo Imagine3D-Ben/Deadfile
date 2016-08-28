@@ -22,19 +22,19 @@ namespace Deadfile.Persons
         public PersonDetailsViewModel PersonDetailsViewModel { get; private set; }
         public PersonButtonsViewModel PersonButtonsViewModel { get; private set; }
 
-        public PersonsViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IChubbFactory chubFactory)
+        public PersonsViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IChubbFactory chubFactory, ITaskScheduler taskScheduler)
             : base(personService, dispatcher, aggregator, dialogService)
         {
-            PersonDirectoryViewModel = new PersonDirectoryViewModel(personService, dispatcher, aggregator, dialogService, chubFactory);
+            PersonDirectoryViewModel = new PersonDirectoryViewModel(personService, dispatcher, aggregator, dialogService, chubFactory, taskScheduler);
             PersonDetailsViewModel = new PersonDetailsViewModel(personService, dispatcher, aggregator, dialogService);
             PersonButtonsViewModel = new PersonButtonsViewModel(personService, dispatcher, aggregator, dialogService, PersonDetailsViewModel.NewPersonCommand, PersonDetailsViewModel.EditPersonCommand, PersonDetailsViewModel.DeletePersonCommand);
         }
 
         public override string Name { get { return "Persons"; } }
 
-        public override Task StartTask()
+        public override void StartTask()
         {
-            return PersonDirectoryViewModel.RefreshAsync();
+            PersonDirectoryViewModel.RefreshAsync();
         }
 
         public override ViewModelBase LeftControlViewModel

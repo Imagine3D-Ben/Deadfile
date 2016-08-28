@@ -28,6 +28,7 @@ namespace Deadfile.Test
         protected Mock<IEventAggregator> aggregatorMock = new Mock<IEventAggregator>();
         protected Mock<IDialogService> dialogServiceMock = new Mock<IDialogService>();
         protected Mock<IChubbFactory> chubbFactoryMock = new Mock<IChubbFactory>();
+        protected Mock<ITaskScheduler> taskSchedulerMock = new Mock<ITaskScheduler>();
         protected Mock<IChubb> chubMock = new Mock<IChubb>();
 
         protected Mock<SelectedPersonChangeEvent> currentPersonChangeEventMock = new Mock<SelectedPersonChangeEvent>();
@@ -59,6 +60,7 @@ namespace Deadfile.Test
             DispatcherSetup();
             AggregatorSetup();
             ChubFactorySetup();
+            TaskSchedulerSetup();
         }
 
         public void TestTeardown()
@@ -89,6 +91,11 @@ namespace Deadfile.Test
             chubMock.Setup(x => x.Unlock(It.IsAny<LockTypeEnum>())).Callback((LockTypeEnum a) => { });
             chubMock.Setup(x => x.TryLock(It.IsAny<LockTypeEnum>())).Returns(true);
             chubMock.Setup(x => x.WaitForCondition(It.IsAny<LockTypeEnum>(), It.IsAny<Func<bool>>())).Callback((LockTypeEnum l, Func<bool> condition) => { });
+        }
+
+        private void TaskSchedulerSetup()
+        {
+            taskSchedulerMock.Setup(x => x.Run(It.IsAny<Action>())).Returns((Action a) => Task.Run(a));
         }
 
         private void AggregatorSetup()

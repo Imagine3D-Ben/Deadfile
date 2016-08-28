@@ -21,6 +21,6 @@ namespace Deadfile.ViewModel
 
         public abstract string Name { get; }
 
-        public abstract Task StartTask();
+        public abstract void StartTask();
     }
 }

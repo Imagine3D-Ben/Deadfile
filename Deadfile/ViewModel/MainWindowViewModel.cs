@@ -23,18 +23,18 @@ namespace Deadfile.ViewModel
 
         public ICommand AppStartCommand { get; private set; }
 
-        public MainWindowViewModel(IDeadfileDbService databaseService, IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IExitService exitService, IChubbFactory chubFactory)
+        public MainWindowViewModel(IDeadfileDbService databaseService, IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IExitService exitService, IChubbFactory chubFactory, ITaskScheduler taskScheduler)
             : base(personService, dispatcher, aggregator, dialogService)
         {
             PageViewModels = new List<ViewModel.PageViewModel>();
-            PageViewModels.Add(new HomeViewModel(personService, dispatcher, aggregator, dialogService));
-            PageViewModels.Add(new PersonsViewModel(personService, dispatcher, aggregator, dialogService, chubFactory));
+            PageViewModels.Add(new HomeViewModel(personService, dispatcher, aggregator, dialogService, taskScheduler));
+            PageViewModels.Add(new PersonsViewModel(personService, dispatcher, aggregator, dialogService, chubFactory, taskScheduler));
             CurrentPageViewModel = PageViewModels[0];
             ChangePageCommand = new RelayCommand(p => ChangeViewModel((PageViewModel)p), p => p is PageViewModel);
             MenuConnect = new RelayCommand(p => exitService.Exit());
             MenuExit = new RelayCommand(p => exitService.Exit());
 
-            AppStartCommand = new AsyncCommand(() => Task.WhenAll(PageViewModels.Select((vm) => vm.StartTask()).ToArray()));
+            AppStartCommand = new AsyncCommand(() => Task.WhenAll(PageViewModels.Select((vm) => Task.Run(new Action(() => vm.StartTask()))).ToArray()));
         }
 
         private void ChangeViewModel(PageViewModel viewModel)

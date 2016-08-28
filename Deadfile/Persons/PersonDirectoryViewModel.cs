@@ -23,11 +23,13 @@ namespace Deadfile.Persons
     {
         readonly ObservableImmutableList<Person> personDirectory;
         Person selectedPerson;
+        readonly ITaskScheduler taskScheduler;
 
-        public PersonDirectoryViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IChubbFactory chubFactory) 
+        public PersonDirectoryViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, IChubbFactory chubFactory, ITaskScheduler taskScheduler) 
             : base(personService, dispatcher, aggregator, dialogService)
         {
             personDirectory = new ObservableImmutableList<Person>(dispatcher, chubFactory);
+            this.taskScheduler = taskScheduler;
             aggregator.GetEvent<PersonDirectoryUpdatedEvent>().Subscribe(OnPersonDirectoryUpdated, dispatcher.BackgroundThread());
             PersonDirectoryLinks = new CollectionViewSource();
             PersonDirectoryLinks.Source = InnerPersonDirectory;
@@ -100,40 +102,31 @@ namespace Deadfile.Persons
             }
         }
 
-        public async Task RefreshAsync()
+        public void RefreshAsync()
         {
-            await Task.Run(() =>
+            IsBusy = true;
+            try
             {
-                IsBusy = true;
-                try
-                {
-                    var persons = this.personService.GetPersons();
-//                    var previouslySelectedPerson = selectedPerson;
-                    personDirectory.DoOperation((items) =>
-                        {
-                            return items.Clear().AddRange(persons.Where((p) => p.FullName.ToUpper().Contains(personFilter)));
-//                            if (newItems.Any(p => p.Id == previouslySelectedPerson.Id))
-//                            {
-//                                SelectedPerson = previouslySelectedPerson;
-//                            }
-//                            return newItems;
-                        });
-                }
-                catch (Exception ex)
-                {
-                    //TODO: Publish operation failed
-                    throw new ApplicationException("Exception failed in refresh", ex);
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
-            });
+                var persons = this.personService.GetPersons();
+                personDirectory.DoOperation((items) =>
+                    {
+                        return items.Clear().AddRange(persons.Where((p) => p.FullName.ToUpper().Contains(personFilter)));
+                    });
+            }
+            catch (Exception ex)
+            {
+                //TODO: Publish operation failed
+                throw new ApplicationException("Exception failed in refresh", ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
-        private async void OnPersonDirectoryUpdated(object state)
+        private void OnPersonDirectoryUpdated(object state)
         {
-            await RefreshAsync();
+            RefreshAsync();
         }
 
         private void OnPersonDeleted(Person person)

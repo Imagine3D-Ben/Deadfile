@@ -14,10 +14,12 @@ namespace Deadfile.Home
 {
     public class HomeViewModel : PageViewModel
     {
-        public HomeViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService)
+        private ITaskScheduler taskScheduler;
+
+        public HomeViewModel(IPersonService personService, IDispatcher dispatcher, IEventAggregator aggregator, IDialogService dialogService, ITaskScheduler taskScheduler)
             : base(personService, dispatcher, aggregator, dialogService)
         {
-
+            this.taskScheduler = taskScheduler;
         }
 
         public override string Name
@@ -28,9 +30,8 @@ namespace Deadfile.Home
             }
         }
 
-        public override Task StartTask()
+        public override void StartTask()
         {
-            return Task.Run(() => { });
         }
     }
 }

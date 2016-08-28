@@ -41,6 +41,7 @@ namespace Deadfile
                 container.RegisterInstance<IExitService>(new ExitService(() => Environment.Exit(0)));
                 container.RegisterType<IDeadfileDbService, DeadfileDbService>();
                 container.RegisterType<IChubbFactory, ChubFactory>();
+                container.RegisterType<ITaskScheduler, TaskSchedulerImpl>();
 
                 var window = container.Resolve<MainWindow>();
                 window.Show();

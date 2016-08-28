@@ -27,14 +27,14 @@ namespace Deadfile.Test
 
         private void GivenEmptyViewModel()
         {
-            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object, chubbFactoryMock.Object);
+            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object, chubbFactoryMock.Object, taskSchedulerMock.Object);
         }
 
         private void GivenPersonDirectory()
         {
-            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object, chubbFactoryMock.Object);
+            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object, chubbFactoryMock.Object, taskSchedulerMock.Object);
 
-            viewModel.RefreshAsync().Wait();
+            viewModel.RefreshAsync();
         }
 
         private void WhenDirectoryUpdateEventIsReceived()
@@ -51,10 +51,10 @@ namespace Deadfile.Test
         public void PersonDirectoryViewModel_WhenRefreshIsCalled_PersonDirectoryShouldBeUpdated()
         {
             //Arrange
-            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object, chubbFactoryMock.Object);
+            viewModel = new PersonDirectoryViewModel(personServiceMock.Object, dispatcherMock.Object, aggregatorMock.Object, dialogServiceMock.Object, chubbFactoryMock.Object, taskSchedulerMock.Object);
 
             //Act
-            viewModel.RefreshAsync().Wait();
+            viewModel.RefreshAsync();
 
             //Assert
             CollectionAssert.AreEqual(persons, viewModel.PersonDirectory.Cast<Person>().ToList());
